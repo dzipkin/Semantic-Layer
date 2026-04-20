@@ -23,7 +23,7 @@ metrics:
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
 
-  Gross Profit:
+  Gross Margin %:
     description: Gross profit / Revenue
     sql: (SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
       - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount ELSE 0 END)) / SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
