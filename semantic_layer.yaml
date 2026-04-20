@@ -39,3 +39,7 @@ dimensions:
   quarter:
     sql: DATE_TRUNC('quarter', je.date)
     table: JOURNAL_ENTRIES je
+
+  year:
+    sql: DATE_TRUNC('year', je.date)
+    table: JOURNAL_ENTRIES je
