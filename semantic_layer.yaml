@@ -1,16 +1,14 @@
 metrics:
   revenue:
     description: Revenue
-    sql: SUM(je.amount)
-    filter: coa.ACCOUNTTYPE = 'Revenue'
+    sql: SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
 
   COGS:
     description: Cost of goods sold
-    sql: SUM(je.amount)
-    filter: coa.GLACCOUNTNAME = 'COGS'
+    sql: SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
