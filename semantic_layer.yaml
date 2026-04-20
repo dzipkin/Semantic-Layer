@@ -1,7 +1,7 @@
 metrics:
   revenue:
     description: Revenue
-    sql: SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
+    sql: SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN amount ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
@@ -15,7 +15,7 @@ metrics:
 
   Gross Profit:
     description: Revenue - cost of goods sold
-    sql: SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
+    sql: SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN amount ELSE 0 END)
       - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount * -1 ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
@@ -23,8 +23,8 @@ metrics:
 
   Gross Margin %:
     description: Gross profit / Revenue
-    sql: (SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
-      - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount * -1 ELSE 0 END)) / SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
+    sql: (SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN amount ELSE 0 END)
+      - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount * -1 ELSE 0 END)) / SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN amount ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
