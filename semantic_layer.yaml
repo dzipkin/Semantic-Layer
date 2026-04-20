@@ -1,0 +1,41 @@
+metrics:
+  revenue:
+    description: Revenue
+    sql: SUM(je.amount)
+    filter: coa.ACCOUNTTYPE = 'Revenue'
+    tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
+    joins:
+      - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
+
+  COGS:
+    description: Cost of goods sold
+    sql: SUM(je.amount)
+    filter: coa.GLACCOUNTNAME = 'COGS'
+    tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
+    joins:
+      - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
+
+  Gross Profit:
+    description: Revenue - cost of goods sold
+    sql: SUM(CASE WHEN coa.ACCOUNTTYPE = 'Revenue' THEN amount ELSE 0 END)
+      - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount ELSE 0 END)
+    tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
+    joins:
+      - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
+
+dimensions:
+  client:
+    sql: c.ClientName
+    table: clients c
+
+  glaccount:
+    sql: coa.GLACCOUNTNAME
+    table: CHART_OF_ACCOUNTS coa
+
+  month:
+    sql: DATE_TRUNC('month', je.date)
+    table: JOURNAL_ENTRIES je
+
+  quarter:
+    sql: DATE_TRUNC('quarter', je.date)
+    table: JOURNAL_ENTRIES je
