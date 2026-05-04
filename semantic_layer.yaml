@@ -24,7 +24,7 @@ metrics:
   Gross Margin %:
     description: Gross profit / Revenue
     sql: (SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN je.amount ELSE 0 END)
-      - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN amount * -1 ELSE 0 END)) / SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN je.amount ELSE 0 END)
+      - SUM(CASE WHEN coa.GLACCOUNTNAME = 'COGS' THEN je.amount * -1 ELSE 0 END)) / SUM(CASE WHEN coa.GLACCOUNTNUMBER in ('400000',400001') THEN je.amount ELSE 0 END)
     tables: [JOURNAL_ENTRIES je, CHART_OF_ACCOUNTS coa]
     joins:
       - je.GLACCOUNTNUMBER = coa.GLACCOUNTNUMBER
